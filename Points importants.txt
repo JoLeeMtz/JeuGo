@@ -1,0 +1,144 @@
+Il reste à faire : 
+- Score joueur blanc & noir (fait a moitie)
+- Indiquer gagnant (fait)
+- Règle de KO (si jeton isDeleted == true, liberte == 0, jeton inserer != jeton qui a ete supprimer) (fait)
+-ne pas mettre un jeton de la meme couleur dans un endroit ou il a ete supprimer
+https://www.codewars.com/kata/game-of-go
+
+Présentation :
+4.txt (regle du KO)
+3.txt (regle du KO) entrer manuellement c7 sur la console
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Class JeuGo {
+    - Array Jeton [Rangée][Colonne] Jeu (tableau d'affichage)
+    - Constructeur JeuGo{
+        String instructionsFichier = Lire fichier passé en paramètre();
+        Instruction[] inst = instructionsFichier;
+    }
+    - Fonction insererJetton() {
+        verifierCelluleLibre();
+        créerJeton();
+    }
+    - Boucle pour toutes les instructions dans []inst
+    
+    - Fonction boolean verifierCelluleLibre(Position jeton); // vérifie s'il n'a pas déjà un jeton à cette position (dans constructeur)
+    
+}
+
+// StandBy a voir lors de la programmation du jeu (réglement pour prendre des territoires)
+Class Liberte {
+    - Fonction checkSiJeton();  // capture de jeton
+        - Check x-1
+        - Check x+1
+        - Check y-1
+        - Check y+1
+}
+
+Class Fichier {
+    - Recevoir fichier .txt
+    - Lire le fichier pour extraire en string
+    - Envoie ce qui a été lu (output Instructions)
+    - Convertir String en class Instructions (de jeu)
+}
+
+Class Instructions {
+    - Position instruction
+    - Instructions/mouvements à effectuer
+}
+
+Class Position {
+    - Rangée x
+    - Colonne y
+}
+
+
+Class Jeton {
+    - Couleur (noir/blanc/vide)
+    - Postion positionXY
+    - lib
+}
+
+// Attente de réponse du prof ---------------
+// attendre réponse du prof pour savoir ce qu'on doit afficher dans résultats
+Class Score {
+    - 
+}
+
+// Affichage graphique/ le tableau
+Interface AffichageJeu {
+
+}
+
+// Affichage en texte
+Interface Résultat {
+
+}
+//-----------------------------------------
+
+Enum Rangée {
+    1 à 9
+}
+Enum Colonne {
+    a à j
+}
+Enum Couleur {
+    noir(0), blanc(1), transparent(3); // transparent == vide
+}
+
+
+Les Patrons de conceptions GoF (3) :
+Semaine 10
+- Section 2 : Observateur
+	On a créer 2 interfaces qui va nous permettre de faire des mis à jour automatique avec nos jetons et nos territoires (contenant 1 fonction chaque).
+
+Semaine 11
+- Section 1 : State
+	Nos différents états sont Jeton ou Pass, donc avec notre interface TypeInstruction(state) nous avons notre fonction getType() 
+	qui nous indique s'il est bien un Jeton ou l'instruction Pass. Et nous l'appelons dans différentes classes qui vont récuperer 
+	le type de l'instruction(Instruction.sauvegarderInstruction()).
+
+- Section 2 : Builder
+	Nous avons fait une interface qui va contenir la fonction qui permet d'initialiser ce que l'instruction 
+	est (Jeton/Pass). Et qui a une fonction qui retourne le résultat de l'instruction (implémenter dans 
+	instruction), c'est-à-dire s'il est un Jeton/Pass (getElement();).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Choses à considérer :
+-Codes et commentaires langues? Pour rester conforme
+-Entoure couleur opposé (les côtés, non les diagonales)
+-Théorie des extremités a considérer (dans le tableau)
+-S'assurer que le contenu soit bien entourer
+-Vérifier que a ces côtés ce ne soit pas une couleur différentes qui l'occupe (ne pas oublier le cas contre le mur)
+-Impossible de mettre un jeton où il y en a déjà un (gérer les cas d'erreurs?)
+
+
+-Prendre en considération que la noir commence
+-Préciser le gagnant avec un affichage
+-Compter les points 
+    1- une intersection bloqué par les mêmes couleur
+    2- un jeton ramassé
+-Fin de jeu 2x PASS consecutif
+
+-Créer un tableau 9x9 (Class)
+    -countPtsB : Int                                // compte les points de roche noir
+    -countPtsW : Int                                // compte les points de roche blanc
+    -Array 9x9                                      // tableau de jeu
+    -char checkCellEmpty(int x, int y);             // return le contenu X, O ou ''
+    -boolean addStone(int x, int y, Stone stone);   // return si la roche a été ajouter'
+-Couleur (un énum)
+-Stone (Class)
+    -Vide(Char : X -> noir  O -> blanc  null/'' -> vide)
+
+
+Hypothèses : 
+-On va utiliser l'interface console pour éviter des dépendances de plus.
+-Prendre en considération qu'on n'a pas implementer toutes les règles du jeu.
+-On considère que la commande PASS 2 fois de suite sera fait à la fin des instructions, donc on n'arrête pas le programme au plein milieu.
+
+
+Jour de la présentation on doit faire :
+-5 fichiers qu'on va recevoir de test
+-Les résultats
+-Montré les 5 principes S.O.L.I.D. qu'on a utilisé
+-Montré les conceptions G.R.A.S.P. qu'on a utilisé

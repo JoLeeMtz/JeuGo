@@ -1,0 +1,110 @@
+@startuml
+class JeuGo {
+    -jeton : array<Jeton>
+
+    +JeuGo() : void
+    +insererJeton() : void
+    +verifierCelluleLibre() : boolean
+
+}
+
+
+interface Fichier {
+    +getFichier(String)
+}
+Fichier <- LireFichier
+
+
+class LireFichier {
+    +LireFichier() : void
+}
+LireFichier <-- Instructions
+
+
+class MiseAJourTerritoire {
+    +checkLiberteJeton()
+}
+
+
+class Instructions {
+    -instructions : Array<Jeton>
+
+    +sauvegarderInstructions() : void
+}
+Instructions --> JeuGo
+Instructions -> Jeton
+abstract class TypeInstruction {
+    info : String
+    +getInfo() : String
+    +setInfo() : String
+}
+TypeInstruction --> Jeton
+TypeInstruction --> Pass
+
+
+class Jeton {
+    -couleurJeton : Couleur
+    -positionXY : Position
+    -liberteDuJeton : Array<Position>
+
+    +getCouleur() : Couleur
+}
+
+
+class Position {
+    -x : Rangee
+    -y : Colonne
+
+    -estRangee() : boolean
+    -estColonne() : boolean
+    +getRangee() : Rangee
+    +getColonne() : Colonne
+}
+Position --> Jeton
+
+
+interface Affichage
+class AffichageJeu
+
+
+enum Rangee {
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    -rangee : string
+    +Rangee(x:string) : void
+    +getValue() : string
+}
+
+
+enum Colonne {
+    a
+    b
+    c
+    d
+    e
+    f
+    g
+    h
+    i
+    j
+    -colonne : string
+    +Colonne(y:string) : void
+    +getValue() : String
+}
+
+
+enum Couleur {
+    noir
+    blanc
+    transparent
+    +Couleur(couleur:string) : void
+}
+
+@enduml
